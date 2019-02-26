@@ -24,6 +24,22 @@ SOFTWARE.
 
 */
 
+var map;
+
+class Control extends L.Control
+{
+    constructor( element )
+    {
+        super();
+        this.element = element;
+    }
+
+    onAdd( map )
+    {
+        return this.element;
+    }
+}
+
 function init()
 {
     var layerUrl = "https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}";
@@ -37,6 +53,20 @@ function init()
         accessToken: accessToken
     };
 
-    var map = L.map( "map" ).setView( [ 40, -98 ], 4 );
+    map = L.map( "map" ).setView( [ 40, -98 ], 4 );
     L.tileLayer( layerUrl, layerConfig ).addTo( map );
+
+    var addPortalDiv = document.getElementById( "addPortal" );
+    new Control( addPortalDiv ).addTo( map );
+    L.DomEvent.disableClickPropagation( addPortalDiv );
+    document.getElementById( "addPortalButton" ).addEventListener( "click", addPortal );
+}
+
+function addPortal()
+{
+    var portalUrl = new URL( document.getElementById( "portalUrl" ).value );
+    var portalLocation = portalUrl.searchParams.get( "pll" ).split( "," );
+    var portalLatitude  = parseFloat( portalLocation[ 0 ] );
+    var portalLongitude = parseFloat( portalLocation[ 1 ] );
+    L.marker( [ portalLatitude, portalLongitude ] ).addTo( map );
 }
