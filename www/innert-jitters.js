@@ -56,10 +56,20 @@ function init()
     map = L.map( "map" ).setView( [ 40, -98 ], 4 );
     L.tileLayer( layerUrl, layerConfig ).addTo( map );
 
-    var addPortalDiv = document.getElementById( "addPortal" );
-    new Control( addPortalDiv ).addTo( map );
-    L.DomEvent.disableClickPropagation( addPortalDiv );
-    document.getElementById( "addPortalButton" ).addEventListener( "click", addPortal );
+    new Control( document.getElementById( "startAddPortal" )).addTo( map );
+    new Control( document.getElementById( "addPortal"      )).addTo( map );
+
+    L.DomEvent.disableClickPropagation( document.getElementById( "addPortal" ));
+
+    document.getElementById( "addPortal" ).style.display = "none";
+
+    document.getElementById( "startAddPortal"  ).addEventListener( "click", startAddPortalClick );
+    document.getElementById( "addPortalButton" ).addEventListener( "click", addPortal           );
+}
+
+function startAddPortalClick()
+{
+    document.getElementById( "addPortal" ).style.display = "block";
 }
 
 function addPortal()
@@ -69,4 +79,6 @@ function addPortal()
     var portalLatitude  = parseFloat( portalLocation[ 0 ] );
     var portalLongitude = parseFloat( portalLocation[ 1 ] );
     L.marker( [ portalLatitude, portalLongitude ] ).addTo( map );
+    document.getElementById( "portalUrl" ).value = "";
+    document.getElementById( "addPortal" ).style.display = "none";
 }
