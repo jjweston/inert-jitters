@@ -48,6 +48,16 @@ div.buttons
     margin-top   : 10px;
 }
 
+span.message
+{
+    font-weight : bold;
+}
+
+span.error
+{
+    color : #ff0000;
+}
+
 #map
 {
     height : 100%;

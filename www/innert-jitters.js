@@ -46,6 +46,12 @@ function displayMessage( message )
     document.getElementById( "message" ).style.display = "block";
 }
 
+function displayError( error )
+{
+    document.getElementById( "errorText" ).textContent = error;
+    document.getElementById( "error" ).style.display = "block";
+}
+
 function init()
 {
     var layerUrl = "https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}";
@@ -65,42 +71,83 @@ function init()
     new Control( document.getElementById( "startAddPortal" )).addTo( map );
     new Control( document.getElementById( "addPortal"      )).addTo( map );
     new Control( document.getElementById( "message"        )).addTo( map );
+    new Control( document.getElementById( "error"          )).addTo( map );
 
-    L.DomEvent.disableClickPropagation( document.getElementById( "addPortal" ));
+    L.DomEvent.disableClickPropagation( document.getElementById( "startAddPortal" ));
+    L.DomEvent.disableClickPropagation( document.getElementById( "addPortal"      ));
+    L.DomEvent.disableClickPropagation( document.getElementById( "message"        ));
+    L.DomEvent.disableClickPropagation( document.getElementById( "error"          ));
 
     document.getElementById( "addPortal" ).style.display = "none";
     document.getElementById( "message"   ).style.display = "none";
+    document.getElementById( "error"     ).style.display = "none";
 
     document.getElementById( "startAddPortal"     ).addEventListener( "click", startAddPortalClick );
     document.getElementById( "submitPortalButton" ).addEventListener( "click", submitPortal        );
     document.getElementById( "cancelPortalButton" ).addEventListener( "click", cancelPortal        );
     document.getElementById( "messageButton"      ).addEventListener( "click", clearMessage        );
+    document.getElementById( "errorButton"        ).addEventListener( "click", clearError          );
 }
 
 function startAddPortalClick()
 {
     document.getElementById( "portalUrl" ).value = "";
-    document.getElementById( "message"   ).style.display = "none";
     document.getElementById( "addPortal" ).style.display = "block";
+    document.getElementById( "message"   ).style.display = "none";
+    document.getElementById( "error"     ).style.display = "none";
 }
 
 function submitPortal()
 {
-    var portalUrl = new URL( document.getElementById( "portalUrl" ).value );
+    try
+    {
+        var portalUrl = new URL( document.getElementById( "portalUrl" ).value );
+    }
+    catch ( e )
+    {
+        displayError( "Invalid portal URL." );
+        return;
+    }
+
+    if ( !portalUrl.searchParams.has( "pll" ))
+    {
+        displayError( "Unable to find portal location." );
+        return;
+    }
+
     var portalLocation = portalUrl.searchParams.get( "pll" ).split( "," );
+    if ( portalLocation.length != 2 )
+    {
+        displayError( "Invalid portal location." );
+        return;
+    }
+
     var portalLatitude  = parseFloat( portalLocation[ 0 ] );
     var portalLongitude = parseFloat( portalLocation[ 1 ] );
+    if (( Number.isNaN( portalLatitude )) || ( Number.isNaN( portalLongitude )))
+    {
+        displayError( "Unable to parse portal location." );
+    }
+
     L.marker( [ portalLatitude, portalLongitude ] ).addTo( map );
-    document.getElementById( "addPortal" ).style.display = "none";
     displayMessage( "Portal added." );
+
+    document.getElementById( "addPortal" ).style.display = "none";
+    document.getElementById( "error"     ).style.display = "none";
 }
 
 function cancelPortal()
 {
     document.getElementById( "addPortal" ).style.display = "none";
+    document.getElementById( "error"     ).style.display = "none";
 }
 
 function clearMessage()
 {
     document.getElementById( "message" ).style.display = "none";
+}
+
+function clearError()
+{
+    document.getElementById( "error" ).style.display = "none";
 }
