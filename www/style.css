@@ -40,6 +40,14 @@ div.mapControl
     background-clip : padding-box;
 }
 
+div.buttons
+{
+    display      : table;
+    margin-left  : auto;
+    margin-right : auto;
+    margin-top   : 10px;
+}
+
 #map
 {
     height : 100%;
@@ -53,12 +61,4 @@ div.mapControl
 #startAddPortal:hover
 {
     background-color : #f4f4f4;
-}
-
-#addPortalButton
-{
-    display      : block;
-    margin-left  : auto;
-    margin-right : auto;
-    margin-top   : 10px;
 }

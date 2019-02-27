@@ -63,8 +63,9 @@ function init()
 
     document.getElementById( "addPortal" ).style.display = "none";
 
-    document.getElementById( "startAddPortal"  ).addEventListener( "click", startAddPortalClick );
-    document.getElementById( "addPortalButton" ).addEventListener( "click", addPortal           );
+    document.getElementById( "startAddPortal"     ).addEventListener( "click", startAddPortalClick );
+    document.getElementById( "submitPortalButton" ).addEventListener( "click", submitPortal        );
+    document.getElementById( "cancelPortalButton" ).addEventListener( "click", cancelPortal        );
 }
 
 function startAddPortalClick()
@@ -72,13 +73,18 @@ function startAddPortalClick()
     document.getElementById( "addPortal" ).style.display = "block";
 }
 
-function addPortal()
+function submitPortal()
 {
     var portalUrl = new URL( document.getElementById( "portalUrl" ).value );
     var portalLocation = portalUrl.searchParams.get( "pll" ).split( "," );
     var portalLatitude  = parseFloat( portalLocation[ 0 ] );
     var portalLongitude = parseFloat( portalLocation[ 1 ] );
     L.marker( [ portalLatitude, portalLongitude ] ).addTo( map );
+    cancelPortal();
+}
+
+function cancelPortal()
+{
     document.getElementById( "portalUrl" ).value = "";
     document.getElementById( "addPortal" ).style.display = "none";
 }
