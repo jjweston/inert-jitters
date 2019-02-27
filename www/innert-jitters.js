@@ -40,6 +40,12 @@ class Control extends L.Control
     }
 }
 
+function displayMessage( message )
+{
+    document.getElementById( "messageText" ).textContent = message;
+    document.getElementById( "message" ).style.display = "block";
+}
+
 function init()
 {
     var layerUrl = "https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}";
@@ -58,18 +64,23 @@ function init()
 
     new Control( document.getElementById( "startAddPortal" )).addTo( map );
     new Control( document.getElementById( "addPortal"      )).addTo( map );
+    new Control( document.getElementById( "message"        )).addTo( map );
 
     L.DomEvent.disableClickPropagation( document.getElementById( "addPortal" ));
 
     document.getElementById( "addPortal" ).style.display = "none";
+    document.getElementById( "message"   ).style.display = "none";
 
     document.getElementById( "startAddPortal"     ).addEventListener( "click", startAddPortalClick );
     document.getElementById( "submitPortalButton" ).addEventListener( "click", submitPortal        );
     document.getElementById( "cancelPortalButton" ).addEventListener( "click", cancelPortal        );
+    document.getElementById( "messageButton"      ).addEventListener( "click", clearMessage        );
 }
 
 function startAddPortalClick()
 {
+    document.getElementById( "portalUrl" ).value = "";
+    document.getElementById( "message"   ).style.display = "none";
     document.getElementById( "addPortal" ).style.display = "block";
 }
 
@@ -80,11 +91,16 @@ function submitPortal()
     var portalLatitude  = parseFloat( portalLocation[ 0 ] );
     var portalLongitude = parseFloat( portalLocation[ 1 ] );
     L.marker( [ portalLatitude, portalLongitude ] ).addTo( map );
-    cancelPortal();
+    document.getElementById( "addPortal" ).style.display = "none";
+    displayMessage( "Portal added." );
 }
 
 function cancelPortal()
 {
-    document.getElementById( "portalUrl" ).value = "";
     document.getElementById( "addPortal" ).style.display = "none";
+}
+
+function clearMessage()
+{
+    document.getElementById( "message" ).style.display = "none";
 }
