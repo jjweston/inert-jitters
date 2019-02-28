@@ -26,6 +26,7 @@ SOFTWARE.
 
 var map;
 var activity = null;
+var portals = [];
 
 class Control extends L.Control
 {
@@ -118,20 +119,29 @@ function submitPortal()
         return;
     }
 
-    var portalLocation = portalUrl.searchParams.get( "pll" ).split( "," );
-    if ( portalLocation.length != 2 )
+    var portalLocationString = portalUrl.searchParams.get( "pll" );
+    var portalLocationSplits = portalLocationString.split( "," );
+    if ( portalLocationSplits.length != 2 )
     {
         displayError( "Invalid portal location." );
         return;
     }
 
-    var portalLatitude  = parseFloat( portalLocation[ 0 ] );
-    var portalLongitude = parseFloat( portalLocation[ 1 ] );
+    var portalLatitude  = parseFloat( portalLocationSplits[ 0 ] );
+    var portalLongitude = parseFloat( portalLocationSplits[ 1 ] );
     if (( Number.isNaN( portalLatitude )) || ( Number.isNaN( portalLongitude )))
     {
         displayError( "Unable to parse portal location." );
+        return;
     }
 
+    if ( portals.includes( portalLocationString ))
+    {
+        displayError( "Portal already exists." );
+        return;
+    }
+
+    portals.push( portalLocationString );
     L.marker( [ portalLatitude, portalLongitude ] ).addTo( map );
     displayMessage( "Portal added." );
 
