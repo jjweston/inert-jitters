@@ -25,6 +25,7 @@ SOFTWARE.
 */
 
 var map;
+var activity = null;
 
 class Control extends L.Control
 {
@@ -91,6 +92,8 @@ function init()
 
 function startAddPortalClick()
 {
+    if ( activity == "addPortal" ) return;
+    activity = "addPortal";
     document.getElementById( "portalUrl" ).value = "";
     document.getElementById( "addPortal" ).style.display = "block";
     document.getElementById( "message"   ).style.display = "none";
@@ -134,12 +137,14 @@ function submitPortal()
 
     document.getElementById( "addPortal" ).style.display = "none";
     document.getElementById( "error"     ).style.display = "none";
+    activity = null;
 }
 
 function cancelPortal()
 {
     document.getElementById( "addPortal" ).style.display = "none";
     document.getElementById( "error"     ).style.display = "none";
+    activity = null;
 }
 
 function clearMessage()
