@@ -95,7 +95,10 @@ function startAddPortalClick()
 {
     if ( activity == "addPortal" ) return;
     activity = "addPortal";
-    document.getElementById( "portalUrl" ).value = "";
+
+    document.getElementById( "portalName" ).value = "";
+    document.getElementById( "portalUrl"  ).value = "";
+
     document.getElementById( "addPortal" ).style.display = "block";
     document.getElementById( "message"   ).style.display = "none";
     document.getElementById( "error"     ).style.display = "none";
@@ -103,6 +106,13 @@ function startAddPortalClick()
 
 function submitPortal()
 {
+    var portalName = document.getElementById( "portalName" ).value.trim();
+    if ( portalName.length == 0 )
+    {
+        displayError( "You must specify a portal name." );
+        return;
+    }
+
     try
     {
         var portalUrl = new URL( document.getElementById( "portalUrl" ).value );
@@ -142,7 +152,7 @@ function submitPortal()
     }
 
     portals.push( portalLocationString );
-    L.marker( [ portalLatitude, portalLongitude ] ).addTo( map );
+    L.marker( [ portalLatitude, portalLongitude ], { title: portalName, alt: "Portal" } ).addTo( map );
     displayMessage( "Portal added." );
 
     document.getElementById( "addPortal" ).style.display = "none";
