@@ -102,6 +102,8 @@ function startAddPortalClick()
     document.getElementById( "addPortal" ).style.display = "block";
     document.getElementById( "message"   ).style.display = "none";
     document.getElementById( "error"     ).style.display = "none";
+
+    document.getElementById( "portalName" ).focus();
 }
 
 function submitPortal()
