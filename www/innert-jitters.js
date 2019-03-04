@@ -49,20 +49,12 @@ function resetControls()
 
     document.getElementById( "addPortal"  ).style.display = "none";
     document.getElementById( "portalList" ).style.display = "none";
-    document.getElementById( "message"    ).style.display = "none";
-    document.getElementById( "error"      ).style.display = "none";
-}
-
-function displayMessage( message )
-{
-    document.getElementById( "messageText" ).textContent = message;
-    document.getElementById( "message" ).style.display = "block";
 }
 
 function displayError( error )
 {
     document.getElementById( "errorText" ).textContent = error;
-    document.getElementById( "error" ).style.display = "block";
+    document.getElementById( "errorText" ).style.display = "block";
 }
 
 function init()
@@ -84,26 +76,18 @@ function init()
     new Control( document.getElementById( "navigation" )).addTo( map );
     new Control( document.getElementById( "addPortal"  )).addTo( map );
     new Control( document.getElementById( "portalList" )).addTo( map );
-    new Control( document.getElementById( "message"    )).addTo( map );
-    new Control( document.getElementById( "error"      )).addTo( map );
 
     L.DomEvent.disableClickPropagation( document.getElementById( "navigation" ));
     L.DomEvent.disableClickPropagation( document.getElementById( "addPortal"  ));
     L.DomEvent.disableClickPropagation( document.getElementById( "portalList" ));
-    L.DomEvent.disableClickPropagation( document.getElementById( "message"    ));
-    L.DomEvent.disableClickPropagation( document.getElementById( "error"      ));
 
     document.getElementById( "addPortal"  ).style.display = "none";
     document.getElementById( "portalList" ).style.display = "none";
-    document.getElementById( "message"    ).style.display = "none";
-    document.getElementById( "error"      ).style.display = "none";
 
     document.getElementById( "startAddPortal"     ).addEventListener( "click", startAddPortalClick );
     document.getElementById( "listPortals"        ).addEventListener( "click", listPortalsClick    );
     document.getElementById( "submitPortalButton" ).addEventListener( "click", submitPortal        );
     document.getElementById( "cancelPortalButton" ).addEventListener( "click", cancelPortal        );
-    document.getElementById( "messageButton"      ).addEventListener( "click", clearMessage        );
-    document.getElementById( "errorButton"        ).addEventListener( "click", clearError          );
 }
 
 function startAddPortalClick()
@@ -115,6 +99,7 @@ function startAddPortalClick()
     document.getElementById( "startAddPortal" ).classList.add( "selected" );
     document.getElementById( "portalName" ).value = "";
     document.getElementById( "portalUrl" ).value = "";
+    document.getElementById( "errorText" ).style.display = "none";
     document.getElementById( "addPortal" ).style.display = "block";
     document.getElementById( "portalName" ).focus();
 }
@@ -179,12 +164,9 @@ function submitPortal()
 
     portals.push( portalLocationString );
     L.marker( [ portalLatitude, portalLongitude ], { title: portalName, alt: "Portal" } ).addTo( map );
-    displayMessage( "Portal added." );
 
     document.getElementById( "startAddPortal" ).classList.remove( "selected" );
-
     document.getElementById( "addPortal" ).style.display = "none";
-    document.getElementById( "error"     ).style.display = "none";
 
     var row = document.getElementById( "portalTable" ).insertRow( -1 );
     row.className = "portalList";
@@ -207,19 +189,6 @@ function submitPortal()
 function cancelPortal()
 {
     document.getElementById( "startAddPortal" ).classList.remove( "selected" );
-
     document.getElementById( "addPortal" ).style.display = "none";
-    document.getElementById( "error"     ).style.display = "none";
-
     activity = null;
-}
-
-function clearMessage()
-{
-    document.getElementById( "message" ).style.display = "none";
-}
-
-function clearError()
-{
-    document.getElementById( "error" ).style.display = "none";
 }

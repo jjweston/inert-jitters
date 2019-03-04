@@ -31,6 +31,11 @@ html, body
     padding : 0;
 }
 
+h2
+{
+    text-align : center;
+}
+
 div.mapControl
 {
     background-color : #ffffff;
@@ -102,11 +107,6 @@ div.buttons
     margin-top   : 10px;
 }
 
-table#portalTable
-{
-    border-spacing : 0;
-}
-
 tr.portalList:nth-child( even )
 {
     background-color : #dddddd;
@@ -118,17 +118,20 @@ td.portalList
     padding-right : 5px;
 }
 
-span.message
+div.error
 {
     font-weight : bold;
-}
-
-span.error
-{
-    color : #ff0000;
+    color       : #ff0000;
+    text-align  : center;
+    padding     : 5px;
 }
 
 #map
 {
     height : 100%;
+}
+
+#portalTable
+{
+    border-spacing : 0;
 }
