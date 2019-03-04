@@ -33,11 +33,65 @@ html, body
 
 div.mapControl
 {
-    background      : #ffffff;
-    border          : 2px solid rgba( 0, 0, 0, 0.2 );
-    border-radius   : 4px;
-    padding         : 5px;
-    background-clip : padding-box;
+    background-color : #ffffff;
+    background-clip  : padding-box;
+    border           : 2px solid rgba( 0, 0, 0, 0.2 );
+    border-radius    : 4px;
+    padding          : 5px;
+}
+
+div.mapTable
+{
+    background-color : #ffffff;
+    background-clip  : padding-box;
+    border           : 2px solid rgba( 0, 0, 0, 0.2 );
+    border-radius    : 4px;
+    padding-bottom   : 5px;
+}
+
+div.navigation
+{
+    border        : 2px solid rgba( 0, 0, 0, 0.2 );
+    border-radius : 4px;
+    display       : flex;
+}
+
+span.navigation
+{
+    background-color : #ffffff;
+    background-clip  : padding-box;
+    border-right     : 1px solid #cccccc;
+    cursor           : pointer;
+    font-weight      : bold;
+    padding          : 5px;
+}
+
+span.navigation:hover
+{
+    background-color : #f4f4f4;
+}
+
+span.navigationStart
+{
+    border-top-left-radius    : 2px;
+    border-bottom-left-radius : 2px;
+}
+
+span.navigationEnd
+{
+    border                     : none;
+    border-top-right-radius    : 2px;
+    border-bottom-right-radius : 2px;
+}
+
+span.selected
+{
+    background-color : #ffddff;
+}
+
+span.selected:hover
+{
+    background-color : #ffddff;
 }
 
 div.buttons
@@ -46,6 +100,22 @@ div.buttons
     margin-left  : auto;
     margin-right : auto;
     margin-top   : 10px;
+}
+
+table#portalTable
+{
+    border-spacing : 0;
+}
+
+tr.portalList:nth-child( even )
+{
+    background-color : #dddddd;
+}
+
+td.portalList
+{
+    padding-left  : 5px;
+    padding-right : 5px;
 }
 
 span.message
@@ -61,14 +131,4 @@ span.error
 #map
 {
     height : 100%;
-}
-
-#startAddPortal
-{
-    cursor : pointer;
-}
-
-#startAddPortal:hover
-{
-    background-color : #f4f4f4;
 }

@@ -42,7 +42,10 @@ SOFTWARE.
    </head>
    <body onload="init();">
        <div id="map"></div>
-       <div id="startAddPortal" class="mapControl">Add Portal</div>
+       <div id="navigation" class="navigation">
+           <span id="startAddPortal" class="navigation navigationStart">Add</span><!--
+        --><span id="listPortals" class="navigation navigationEnd">List</span>
+       </div>
        <div id="addPortal" class="mapControl">
            <h2 style="text-align: center;">Add Portal</h2>
            <table>
@@ -59,6 +62,15 @@ SOFTWARE.
                <button id="submitPortalButton">Submit</button>
                <button id="cancelPortalButton">Cancel</button>
            </div>
+       </div>
+       <div id="portalList" class="mapTable">
+           <h2 style="text-align: center;">Portal List</h2>
+           <table id="portalTable">
+               <th>Name</th>
+               <th>Latitude</th>
+               <th>Longitude</th>
+           </table>
+       </div>
        <div id="message" class="mapControl">
            <span id="messageText" class="message"></span>
            <div class="buttons">
@@ -70,7 +82,6 @@ SOFTWARE.
            <div class="buttons">
                <button id="errorButton">Okay</button>
            </div>
-       </div>
        </div>
    </body>
 </html>
