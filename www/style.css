@@ -126,6 +126,11 @@ div.error
     padding     : 5px;
 }
 
+a.removePortal
+{
+    cursor : pointer;
+}
+
 #map
 {
     height : 100%;

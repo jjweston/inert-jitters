@@ -26,7 +26,7 @@ SOFTWARE.
 
 var map;
 var activity = null;
-var portals = [];
+var portals = new Map();
 
 class Control extends L.Control
 {
@@ -107,7 +107,7 @@ function startAddPortalClick()
 function listPortalsClick()
 {
     if ( activity == "listPortals" ) return;
-    if ( portals.length == 0 ) return;
+    if ( portals.size == 0 ) return;
     activity = "listPortals";
 
     resetControls();
@@ -156,14 +156,15 @@ function submitPortal()
         return;
     }
 
-    if ( portals.includes( portalLocationString ))
+    if ( portals.has( portalLocationString ))
     {
         displayError( "Portal already exists." );
         return;
     }
 
-    portals.push( portalLocationString );
-    L.marker( [ portalLatitude, portalLongitude ], { title: portalName, alt: "Portal" } ).addTo( map );
+    var portalMarker = L.marker( [ portalLatitude, portalLongitude ], { title: portalName, alt: "Portal" } );
+    portalMarker.addTo( map );
+    portals.set( portalLocationString, portalMarker );
 
     document.getElementById( "startAddPortal" ).classList.remove( "selected" );
     document.getElementById( "addPortal" ).style.display = "none";
@@ -183,6 +184,16 @@ function submitPortal()
     longitudeCell.className = "portalList";
     longitudeCell.textContent = portalLongitude;
 
+    var removeCell = row.insertCell( -1 );
+    removeCell.className = "portalList";
+    var removeLink = document.createElement( "a" );
+    removeLink.portalLocationString = portalLocationString;
+    removeLink.portalRow = row;
+    removeLink.className = "removePortal";
+    removeLink.textContent = "Remove";
+    removeLink.addEventListener( "click", removePortal );
+    removeCell.appendChild( removeLink );
+
     activity = null;
 }
 
@@ -191,4 +202,17 @@ function cancelPortal()
     document.getElementById( "startAddPortal" ).classList.remove( "selected" );
     document.getElementById( "addPortal" ).style.display = "none";
     activity = null;
+}
+
+function removePortal( event )
+{
+    portals.get( event.target.portalLocationString ).remove();
+    portals.delete( event.target.portalLocationString );
+    event.target.portalRow.parentNode.removeChild( event.target.portalRow );
+
+    if ( portals.size == 0 )
+    {
+        resetControls();
+        activity = null;
+    }
 }
